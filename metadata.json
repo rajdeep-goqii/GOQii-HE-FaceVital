@@ -1,0 +1,8 @@
+{
+  "name": "GOQii HE FaceVital",
+  "description": "Futuristic AI-powered face scanning health platform for real-time bio-signal analysis.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": []
+}
