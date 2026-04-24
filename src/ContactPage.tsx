@@ -237,8 +237,12 @@ export default function ContactPage() {
                 ))}
               </div>
             </div>
-            <div className="aspect-video bg-white/5 backdrop-blur border border-white/10 rounded-[32px] flex items-center justify-center">
-               <Globe className="w-32 h-32 text-emerald-500/20" />
+            <div className="aspect-video rounded-[32px] overflow-hidden border border-white/10 shadow-2xl">
+              <img
+                src="/contact-image.png"
+                alt="Global health presence"
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
         </div>

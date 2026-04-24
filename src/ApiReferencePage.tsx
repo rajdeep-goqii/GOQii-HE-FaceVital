@@ -74,14 +74,7 @@ export default function ApiReferencePage() {
           <p className="text-xl text-slate-500 font-light max-w-2xl mx-auto mb-12 leading-relaxed">
             Measure health signals using just a camera — via simple API integration.
           </p>
-          <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <button className="bg-slate-950 text-white px-10 py-5 rounded-2xl font-bold shadow-xl shadow-slate-900/20 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3">
-              <Key className="w-5 h-5" /> Get API Key
-            </button>
-            <button className="bg-slate-50 border border-slate-200 text-slate-950 px-10 py-5 rounded-2xl font-bold shadow-sm hover:shadow-md hover:border-slate-300 transition-all flex items-center justify-center gap-3">
-              <BookOpen className="w-5 h-5 text-slate-400" /> View Full Docs
-            </button>
-          </div>
+          {/* API Key and Docs buttons hidden until ready */}
         </div>
       </RevealSection>
 

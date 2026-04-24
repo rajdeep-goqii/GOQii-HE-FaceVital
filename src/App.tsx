@@ -34,7 +34,7 @@ import {
   Twitter,
   Github
 } from 'lucide-react';
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
 import FeaturesPage from './FeaturesPage';
 import ApiReferencePage from './ApiReferencePage';
@@ -1300,17 +1300,126 @@ const FinalCTA = ({ onOpenScan }: { onOpenScan: () => void }) => {
   );
 };
 
-const Footer = () => {
+const PartnerModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+  const [formState, setFormState] = useState<'idle' | 'submitting' | 'success'>('idle');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormState('submitting');
+    setTimeout(() => setFormState('success'), 1500);
+  };
+
+  useEffect(() => {
+    if (!isOpen) setTimeout(() => setFormState('idle'), 300);
+  }, [isOpen]);
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="absolute inset-0 bg-slate-950/80 backdrop-blur-md"
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            className="relative w-full max-w-2xl bg-white rounded-[40px] shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto"
+          >
+            <div className="p-8 md:p-12">
+              <div className="flex items-center justify-between mb-8">
+                <div>
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-600 mb-3">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.2em]">Partner with Us</span>
+                  </div>
+                  <h2 className="text-3xl font-bold text-slate-950 font-display">Let's build together</h2>
+                  <p className="text-slate-500 text-sm font-light mt-2">Tell us about your partnership opportunity.</p>
+                </div>
+                <button onClick={onClose} className="p-2 rounded-full bg-slate-50 text-slate-400 hover:bg-slate-100 shrink-0">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              <AnimatePresence mode="wait">
+                {formState === 'success' ? (
+                  <motion.div key="success" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="py-12 text-center">
+                    <div className="w-20 h-20 bg-emerald-100 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                      <CheckCircle2 className="w-10 h-10" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-slate-950 mb-3 font-display">Message Sent!</h3>
+                    <p className="text-slate-500 font-light mb-6">Thank you for reaching out. A team member will get back to you shortly.</p>
+                    <button onClick={onClose} className="text-emerald-600 font-bold flex items-center gap-2 mx-auto hover:gap-3 transition-all">
+                      Close <ArrowRight className="w-5 h-5" />
+                    </button>
+                  </motion.div>
+                ) : (
+                  <motion.form key="form" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onSubmit={handleSubmit} className="space-y-5">
+                    <div className="grid md:grid-cols-2 gap-5">
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold uppercase tracking-widest text-slate-400 ml-1">Full Name</label>
+                        <input required type="text" placeholder="John Doe" className="w-full bg-slate-50 border border-slate-100 rounded-2xl py-4 px-5 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 outline-none transition-all text-slate-950 text-sm" />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold uppercase tracking-widest text-slate-400 ml-1">Email</label>
+                        <input required type="email" placeholder="john@company.com" className="w-full bg-slate-50 border border-slate-100 rounded-2xl py-4 px-5 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 outline-none transition-all text-slate-950 text-sm" />
+                      </div>
+                    </div>
+                    <div className="grid md:grid-cols-2 gap-5">
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold uppercase tracking-widest text-slate-400 ml-1">Company</label>
+                        <input type="text" placeholder="Your Company" className="w-full bg-slate-50 border border-slate-100 rounded-2xl py-4 px-5 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 outline-none transition-all text-slate-950 text-sm" />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-xs font-bold uppercase tracking-widest text-slate-400 ml-1">Partnership Type</label>
+                        <select className="w-full bg-slate-50 border border-slate-100 rounded-2xl py-4 px-5 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 outline-none transition-all text-slate-950 text-sm appearance-none">
+                          <option>Technology Partner</option>
+                          <option>Healthcare Provider</option>
+                          <option>Enterprise Integration</option>
+                          <option>Distribution / Reseller</option>
+                          <option>Research Collaboration</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-xs font-bold uppercase tracking-widest text-slate-400 ml-1">Message</label>
+                      <textarea required rows={4} placeholder="Tell us about your partnership idea..." className="w-full bg-slate-50 border border-slate-100 rounded-3xl py-4 px-5 focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 outline-none transition-all text-slate-950 text-sm resize-none" />
+                    </div>
+                    <button
+                      disabled={formState === 'submitting'}
+                      className="w-full bg-slate-950 text-white rounded-2xl py-5 font-bold flex items-center justify-center gap-3 hover:bg-slate-900 transition-all disabled:opacity-50 text-sm"
+                    >
+                      {formState === 'submitting' ? (
+                        <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }} className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full" />
+                      ) : (
+                        <>Send Partnership Request <ArrowRight className="w-5 h-5" /></>
+                      )}
+                    </button>
+                  </motion.form>
+                )}
+              </AnimatePresence>
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  );
+};
+
+const Footer = ({ onOpenPartner }: { onOpenPartner: () => void }) => {
   const navigation = {
     product: [
       { name: 'Features', href: '/features' },
       { name: 'Technology', href: '/#technology' },
-      { name: 'API Reference', href: '/api' },
+      { name: 'API Reference', href: null },
     ],
     company: [
       { name: 'About Us', href: '/about' },
       { name: 'Medical Advisory', href: '/medical-advisory' },
       { name: 'Contact', href: '/contact' },
+      { name: 'Partner with Us', href: 'partner' },
     ],
     support: [
       { name: 'Help Center', href: '/help' },
@@ -1354,7 +1463,9 @@ const Footer = () => {
             <ul className="space-y-4">
               {navigation.product.map((item) => (
                 <li key={item.name}>
-                  {item.href.startsWith('/') && !item.href.includes('#') ? (
+                  {item.href === null ? (
+                    <span className="text-slate-300 text-sm font-light cursor-not-allowed select-none">{item.name}</span>
+                  ) : item.href.startsWith('/') && !item.href.includes('#') ? (
                     <Link to={item.href} className="text-slate-500 hover:text-emerald-600 text-sm font-light transition-colors">{item.name}</Link>
                   ) : (
                     <a href={item.href} className="text-slate-500 hover:text-emerald-600 text-sm font-light transition-colors">{item.name}</a>
@@ -1369,7 +1480,9 @@ const Footer = () => {
             <ul className="space-y-4">
               {navigation.company.map((item) => (
                 <li key={item.name}>
-                  {item.href.startsWith('/') && !item.href.includes('#') ? (
+                  {item.href === 'partner' ? (
+                    <button onClick={onOpenPartner} className="text-slate-500 hover:text-emerald-600 text-sm font-light transition-colors text-left">{item.name}</button>
+                  ) : item.href.startsWith('/') && !item.href.includes('#') ? (
                     <Link to={item.href} className="text-slate-500 hover:text-emerald-600 text-sm font-light transition-colors">{item.name}</Link>
                   ) : (
                     <a href={item.href} className="text-slate-500 hover:text-emerald-600 text-sm font-light transition-colors">{item.name}</a>
@@ -1424,41 +1537,20 @@ const Footer = () => {
   );
 };
 
-const LandingPage = ({ 
-  setIsScanOpen, 
-  setSkipScanForm, 
-  setIsVideoOpen
+const LandingPage = ({
+  setIsVideoOpen,
+  openScan,
 }: any) => (
   <main>
-    <Hero onOpenScan={() => {
-      setSkipScanForm(false);
-      setIsScanOpen(true);
-    }} onOpenVideo={() => setIsVideoOpen(true)} />
+    <Hero onOpenScan={openScan} onOpenVideo={() => setIsVideoOpen(true)} />
     <ScienceFeatures />
     <Certifications />
-    <HowItWorks onOpenScan={() => {
-      setSkipScanForm(false);
-      setIsScanOpen(true);
-    }} />
-    <MetricsGrid onOpenScan={() => {
-      setSkipScanForm(false);
-      setIsScanOpen(true);
-    }} />
-    <AIVisualization onOpenScan={() => {
-      setSkipScanForm(false);
-      setIsScanOpen(true);
-    }} />
+    <HowItWorks onOpenScan={openScan} />
+    <MetricsGrid onOpenScan={openScan} />
+    <AIVisualization onOpenScan={openScan} />
     <Journey />
-    <ResultsSummary onOpenScan={() => {
-      setSkipScanForm(false);
-      setIsScanOpen(true);
-    }} />
-    <FinalCTA 
-      onOpenScan={() => {
-        setSkipScanForm(false);
-        setIsScanOpen(true);
-      }} 
-    />
+    <ResultsSummary onOpenScan={openScan} />
+    <FinalCTA onOpenScan={openScan} />
   </main>
 );
 
@@ -1466,82 +1558,61 @@ export default function App() {
   const [isScanOpen, setIsScanOpen] = useState(false);
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   const [skipScanForm, setSkipScanForm] = useState(false);
+  const [isPartnerOpen, setIsPartnerOpen] = useState(false);
+  const scrollPositionRef = useRef(0);
+
+  const openScan = useCallback(() => {
+    scrollPositionRef.current = window.scrollY;
+    setSkipScanForm(false);
+    setIsScanOpen(true);
+  }, []);
+
+  const closeScan = useCallback(() => {
+    setIsScanOpen(false);
+    requestAnimationFrame(() => {
+      window.scrollTo({ top: scrollPositionRef.current, behavior: 'instant' });
+    });
+  }, []);
 
   return (
     <BrowserRouter>
       <ScrollToTop />
       <div className="font-sans selection:bg-brand-primary/30 selection:text-slate-950">
-        <Navbar onOpenScan={() => {
-          setSkipScanForm(false);
-          setIsScanOpen(true);
-        }} />
+        <Navbar onOpenScan={openScan} />
         <Routes>
           <Route path="/" element={
-            <LandingPage 
-              setIsScanOpen={setIsScanOpen}
-              setSkipScanForm={setSkipScanForm}
+            <LandingPage
               setIsVideoOpen={setIsVideoOpen}
+              openScan={openScan}
             />
           } />
           <Route path="/features" element={
-            <FeaturesPage 
-              onOpenScan={() => {
-                setSkipScanForm(false);
-                setIsScanOpen(true);
-              }}
+            <FeaturesPage
+              onOpenScan={openScan}
               onOpenVideo={() => setIsVideoOpen(true)}
             />
           } />
           <Route path="/api" element={<ApiReferencePage />} />
-          <Route path="/about" element={
-            <AboutPage 
-              onOpenScan={() => {
-                setSkipScanForm(false);
-                setIsScanOpen(true);
-              }}
-            />
-          } />
-          <Route path="/medical-advisory" element={
-            <MedicalAdvisoryPage 
-              onOpenScan={() => {
-                setSkipScanForm(false);
-                setIsScanOpen(true);
-              }}
-            />
-          } />
-          <Route path="/help" element={
-            <HelpCenterPage 
-              onOpenScan={() => {
-                setSkipScanForm(false);
-                setIsScanOpen(true);
-              }}
-            />
-          } />
-          <Route path="/safety-privacy" element={
-            <SafetyPrivacyPage 
-              onOpenScan={() => {
-                setSkipScanForm(false);
-                setIsScanOpen(true);
-              }}
-            />
-          } />
+          <Route path="/about" element={<AboutPage onOpenScan={openScan} onOpenPartner={() => setIsPartnerOpen(true)} />} />
+          <Route path="/medical-advisory" element={<MedicalAdvisoryPage onOpenScan={openScan} />} />
+          <Route path="/help" element={<HelpCenterPage onOpenScan={openScan} />} />
+          <Route path="/safety-privacy" element={<SafetyPrivacyPage onOpenScan={openScan} />} />
           <Route path="/docs" element={<DocumentationPage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
           <Route path="/terms-of-service" element={<TermsOfServicePage />} />
-          <Route path="/compliance" element={
-            <CompliancePage />
-          } />
+          <Route path="/compliance" element={<CompliancePage />} />
           <Route path="/disclaimer" element={<DisclaimerPage />} />
           <Route path="/contact" element={<ContactPage />} />
         </Routes>
-        <Footer />
-        
-        <ScanPopup 
-          isOpen={isScanOpen} 
-          onClose={() => setIsScanOpen(false)} 
+        <Footer onOpenPartner={() => setIsPartnerOpen(true)} />
+
+        <ScanPopup
+          isOpen={isScanOpen}
+          onClose={closeScan}
           initialStep={skipScanForm ? 'setup' : 'form'}
         />
         <VideoPopup isOpen={isVideoOpen} onClose={() => setIsVideoOpen(false)} />
+        <PartnerModal isOpen={isPartnerOpen} onClose={() => setIsPartnerOpen(false)} />
         
         {/* Global Background Accents */}
         <div className="fixed inset-0 pointer-events-none -z-50 overflow-hidden bg-white">

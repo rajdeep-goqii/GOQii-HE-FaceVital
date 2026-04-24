@@ -24,7 +24,7 @@ const RevealSection = ({ children, className = "" }: { children: React.ReactNode
   </motion.section>
 );
 
-export default function AboutPage({ onOpenScan }: { onOpenScan: () => void }) {
+export default function AboutPage({ onOpenScan, onOpenPartner }: { onOpenScan: () => void; onOpenPartner: () => void }) {
   return (
     <div className="pt-32 pb-20 bg-white">
       {/* Hero Section */}
@@ -159,11 +159,17 @@ export default function AboutPage({ onOpenScan }: { onOpenScan: () => void }) {
       <RevealSection className="py-40 px-6 text-center">
         <h2 className="text-5xl font-bold text-slate-950 mb-10 font-display">Join Us in Building the<br/>Future of Health</h2>
         <div className="flex flex-col sm:flex-row gap-6 justify-center">
-          <button 
+          <button
             onClick={onOpenScan}
             className="bg-brand-primary text-slate-950 px-10 py-5 rounded-2xl font-bold shadow-[0_10px_30px_rgba(0,245,160,0.2)] hover:scale-105 active:scale-95 transition-all text-lg flex items-center justify-center gap-3"
           >
             Start Your Health Scan <ArrowRight className="w-5 h-5" />
+          </button>
+          <button
+            onClick={onOpenPartner}
+            className="bg-white border border-slate-200 text-slate-950 px-10 py-5 rounded-2xl font-bold shadow-sm hover:shadow-md hover:border-slate-300 transition-all text-lg flex items-center justify-center gap-3"
+          >
+            Partner With Us
           </button>
         </div>
       </RevealSection>

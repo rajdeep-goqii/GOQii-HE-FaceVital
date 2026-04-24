@@ -144,15 +144,43 @@ export default function FeaturesPage({ onOpenScan, onOpenVideo }: { onOpenScan: 
               </ul>
             </div>
             <div className="relative">
-              <div className="aspect-square bg-slate-100 rounded-[64px] border border-slate-200 overflow-hidden relative group">
-                <img 
-                  src="https://appcdn.goqii.com/storeimg/32402_1776926102.png" 
-                  alt="Clinical metrics analysis" 
-                  className="w-full h-full object-cover transition-all duration-1000"
-                  referrerPolicy="no-referrer"
+              <div className="aspect-square bg-slate-900 rounded-[64px] border border-slate-200 overflow-hidden relative group">
+                {/* Face image */}
+                <img
+                  src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800&auto=format&fit=crop"
+                  alt="Clinical metrics analysis"
+                  className="w-full h-full object-cover object-top transition-all duration-1000 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/40 to-transparent" />
-                <div className="absolute bottom-8 left-8 right-8 p-8 glass-card rounded-3xl border-white/20">
+
+                {/* ECG lines */}
+                <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice">
+                  <polyline
+                    points="0,200 40,200 55,160 70,240 85,200 120,200 135,170 150,230 165,200 220,200"
+                    fill="none" stroke="rgba(0,245,160,0.5)" strokeWidth="2"
+                  />
+                  <polyline
+                    points="180,200 240,200 255,160 270,240 285,200 320,200 335,170 350,230 365,200 400,200"
+                    fill="none" stroke="rgba(0,245,160,0.5)" strokeWidth="2"
+                  />
+                </svg>
+
+                {/* Face tracking corners */}
+                <div className="absolute top-[15%] left-[20%] w-10 h-10 border-t-2 border-l-2 border-emerald-400 rounded-tl-lg pointer-events-none" />
+                <div className="absolute top-[15%] right-[20%] w-10 h-10 border-t-2 border-r-2 border-emerald-400 rounded-tr-lg pointer-events-none" />
+                <div className="absolute bottom-[28%] left-[20%] w-10 h-10 border-b-2 border-l-2 border-emerald-400 rounded-bl-lg pointer-events-none" />
+                <div className="absolute bottom-[28%] right-[20%] w-10 h-10 border-b-2 border-r-2 border-emerald-400 rounded-br-lg pointer-events-none" />
+
+                {/* Scan dot overlay */}
+                {[
+                  { top: '25%', left: '38%' }, { top: '30%', left: '58%' },
+                  { top: '42%', left: '32%' }, { top: '45%', left: '62%' },
+                  { top: '55%', left: '40%' }, { top: '52%', left: '55%' },
+                ].map((pos, i) => (
+                  <div key={i} className="absolute w-1.5 h-1.5 rounded-full bg-emerald-400/70 animate-pulse" style={{ top: pos.top, left: pos.left, animationDelay: `${i * 0.3}s` }} />
+                ))}
+
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10 to-transparent" />
+                <div className="absolute bottom-8 left-8 right-8 p-6 backdrop-blur-md bg-white/90 rounded-3xl border border-white/60 shadow-xl">
                   <div className="flex items-center gap-3 text-emerald-600 mb-2">
                     <ShieldCheck className="w-5 h-5" />
                     <span className="text-[10px] font-bold uppercase tracking-widest">Medical Accuracy</span>
