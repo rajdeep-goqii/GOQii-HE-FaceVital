@@ -539,214 +539,6 @@ const VideoPopup = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
   );
 };
 
-const EnterprisePopup = ({ isOpen, onClose, onOpenScan }: { isOpen: boolean; onClose: () => void; onOpenScan: () => void }) => {
-  const [loading, setLoading] = useState(false);
-  const [step, setStep] = useState(1);
-
-  useEffect(() => {
-    if (!isOpen) {
-      setTimeout(() => setStep(1), 300);
-    }
-  }, [isOpen]);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setStep(2);
-    }, 1500);
-  };
-
-  const calendarDays = Array.from({ length: 30 }, (_, i) => i + 1);
-
-  return (
-    <AnimatePresence>
-      {isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm"
-          />
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className={`relative w-full transition-all duration-500 ease-in-out ${step === 1 ? 'max-w-xl' : 'max-w-6xl'} bg-white rounded-[32px] overflow-hidden shadow-2xl`}
-          >
-            <button 
-              onClick={onClose}
-              className="absolute top-6 right-6 p-2 rounded-full hover:bg-slate-100 transition-colors z-20"
-            >
-              <X className="w-5 h-5 text-slate-400" />
-            </button>
-
-            {step === 1 ? (
-              <div className="p-8 lg:p-12">
-                <div className="mb-8">
-                  <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-500 flex items-center justify-center mb-6">
-                    <Globe className="w-6 h-6" />
-                  </div>
-                  <h3 className="text-3xl font-bold text-slate-950 mb-2 font-display">Enterprise Inquiry</h3>
-                  <p className="text-slate-500 font-light">Scale transdermal health assessment across your organization.</p>
-                </div>
-
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="relative">
-                      <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                      <input required type="text" placeholder="First Name" className="w-full bg-slate-50 border border-slate-100 rounded-xl py-3.5 pl-12 pr-4 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all text-sm" />
-                    </div>
-                    <div className="relative">
-                      <input required type="text" placeholder="Last Name" className="w-full bg-slate-50 border border-slate-100 rounded-xl py-3.5 px-4 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all text-sm" />
-                    </div>
-                  </div>
-                  
-                  <div className="relative">
-                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                    <input required type="email" placeholder="Work Email" className="w-full bg-slate-50 border border-slate-100 rounded-xl py-3.5 pl-12 pr-4 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all text-sm" />
-                  </div>
-
-                  <div className="relative">
-                    <Globe className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                    <input required type="text" placeholder="Company Name" className="w-full bg-slate-50 border border-slate-100 rounded-xl py-3.5 pl-12 pr-4 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all text-sm" />
-                  </div>
-
-                  <div className="relative">
-                    <Users className="absolute left-4 top-4 w-4 h-4 text-slate-400" />
-                    <select required className="w-full bg-slate-50 border border-slate-100 rounded-xl py-3.5 pl-12 pr-4 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all text-sm appearance-none">
-                      <option value="">Expected Volume (Scans/Mo)</option>
-                      <option value="<1000">&lt; 1,000</option>
-                      <option value="1000-10000">1,000 - 10,000</option>
-                      <option value="10000+">10,000+</option>
-                    </select>
-                  </div>
-                  
-                  <div className="pt-4">
-                    <Button className="w-full py-4 bg-blue-600 hover:bg-blue-700" disabled={loading}>
-                      {loading ? <Loader2 className="w-5 h-5 animate-spin mx-auto" /> : "Request Partnership"}
-                    </Button>
-                  </div>
-                </form>
-              </div>
-            ) : (
-              <div className="h-full flex flex-col">
-                {/* Step Header */}
-                <div className="p-12 pb-0 flex flex-col md:flex-row justify-between items-start gap-8">
-                  <div className="space-y-4">
-                    <div className="text-emerald-500 font-bold text-xs uppercase tracking-[0.2em]">Contact us</div>
-                    <h2 className="text-3xl md:text-4xl font-bold text-slate-900 leading-tight max-w-md font-display">
-                      Want to understand the <span className="text-emerald-500">technology?</span> <br />
-                      Schedule a meeting with us
-                    </h2>
-                  </div>
-
-                  {/* Stepper */}
-                  <div className="flex gap-10">
-                    <div className="flex flex-col gap-3">
-                      <span className="text-[10px] text-slate-300 font-black uppercase tracking-[0.2em]">Step 1</span>
-                      <span className="text-[13px] font-bold text-slate-400">Contact info</span>
-                      <div className="h-[3px] bg-emerald-500 w-full rounded-full" />
-                    </div>
-                    <div className="flex flex-col gap-3">
-                      <span className="text-[10px] text-slate-400 font-black uppercase tracking-[0.2em]">Step 2</span>
-                      <div className="space-y-0.5">
-                        <div className="text-[13px] font-bold text-slate-900 leading-none">Schedule a call</div>
-                        <div className="text-[10px] font-bold text-slate-400 capitalize">(optional)</div>
-                      </div>
-                      <div className="h-[4px] bg-slate-900 w-full rounded-full" />
-                    </div>
-                    <div className="flex flex-col gap-3">
-                      <span className="text-[10px] text-slate-300 font-black uppercase tracking-[0.2em]">Step 3</span>
-                      <span className="text-[13px] font-bold text-slate-300">Scan yourself</span>
-                      <div className="h-[3px] bg-emerald-100 w-full rounded-full" />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Content Grid */}
-                <div className="grid md:grid-cols-2 gap-8 p-12">
-                  <div className="bg-slate-50/50 rounded-[40px] p-8 min-h-[500px] relative overflow-hidden flex flex-col items-center">
-                    <div className="w-full max-w-[320px] bg-slate-950 rounded-[32px] p-8 text-white shadow-2xl relative z-10">
-                      <div className="flex flex-col items-center mb-8">
-                        <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center mb-4">
-                          <Activity className="w-6 h-6 text-brand-primary" />
-                        </div>
-                        <div className="text-sm font-bold tracking-tight">Meet with Shen AI</div>
-                      </div>
-                      
-                      <div className="flex justify-between items-center mb-8 px-2">
-                        <ChevronLeft className="w-4 h-4 opacity-40 cursor-pointer hover:opacity-100 transition-opacity" />
-                        <div className="text-xs font-bold uppercase tracking-widest">April 2026</div>
-                        <ChevronRight className="w-4 h-4 opacity-40 cursor-pointer hover:opacity-100 transition-opacity" />
-                      </div>
-
-                      <div className="grid grid-cols-7 gap-y-5 gap-x-2 text-[8px] font-black text-center mb-4">
-                        {['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'].map(d => (
-                          <div key={d} className="opacity-30 tracking-tighter">{d}</div>
-                        ))}
-                        {Array.from({ length: 3 }).map((_, i) => <div key={`empty-${i}`} />)}
-                        {calendarDays.map(d => (
-                          <div key={d} className={`p-2 rounded-xl text-[10px] transition-all cursor-pointer ${d === 23 ? 'bg-brand-primary text-slate-950 font-black scale-110 shadow-lg shadow-brand-primary/20' : d === 24 || d === 25 ? 'bg-white/10 text-white' : 'hover:bg-white/5 opacity-60 hover:opacity-100'}`}>
-                            {d}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="absolute inset-x-0 bottom-0 p-12 bg-gradient-to-t from-white via-white/80 to-transparent pt-32 text-center pointer-events-none">
-                       {/* Background for buttons? No need for too much detail here. */}
-                    </div>
-                  </div>
-
-                  <div className="bg-emerald-400 rounded-[40px] p-12 relative overflow-hidden group">
-                    <div className="relative z-20 h-full flex flex-col justify-between max-w-xs">
-                      <div>
-                        <h3 className="text-4xl md:text-5xl font-bold text-white mb-8 tracking-tight font-display">Proceed to <br />take a scan</h3>
-                        <p className="text-white/90 text-sm font-medium leading-relaxed mb-10">
-                          Measure health markers like blood pressure, BMI, heart rate (HR), heart rate variability (HRV) and more in just 30 seconds through face scan.
-                        </p>
-                        <motion.button 
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                          onClick={() => {
-                            onClose();
-                            onOpenScan();
-                          }}
-                          className="bg-white text-emerald-600 px-8 py-4 rounded-xl font-bold text-sm shadow-xl shadow-black/10 hover:shadow-2xl transition-all flex items-center gap-3 cursor-pointer"
-                        >
-                          Proceed to scan
-                          <ArrowRight className="w-4 h-4" />
-                        </motion.button>
-                      </div>
-                    </div>
-
-                    {/* Hand with Phone Mockup Placeholder */}
-                    <div className="absolute -bottom-10 -right-10 w-[70%] group-hover:scale-105 transition-transform duration-[2s] rotate-[-5deg]">
-                       <div className="relative">
-                          <img 
-                            src="https://cdn.prod.website-files.com/680280c18df8e68403545b30/680280c18df8e68403545bc2_Image.webp" 
-                            alt="Scan Simulation" 
-                            className="w-full rounded-3xl shadow-3xl brightness-110"
-                            referrerPolicy="no-referrer"
-                          />
-                          <div className="absolute inset-0 border-[6px] border-white/20 rounded-3xl" />
-                       </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-          </motion.div>
-        </div>
-      )}
-    </AnimatePresence>
-  );
-};
-
 // --- Sections ---
 
 const Navbar = ({ onOpenScan }: { onOpenScan: () => void }) => {
@@ -1339,7 +1131,7 @@ const Journey = () => {
     { title: "Digital Twin", desc: "30-second multi-spectral scan" },
     { title: "Analysis", desc: "Deep neural decoding of rPPG" },
     { title: "Coaching", desc: "AI-driven wellness interventions" },
-    { title: "Medical", desc: "Telehealth escalation routes" },
+    { title: "Medical", desc: "Clinical escalation routes" },
   ];
 
   return (
@@ -1459,37 +1251,7 @@ const ResultsSummary = ({ onOpenScan }: { onOpenScan: () => void }) => {
   );
 };
 
-const UseCases = ({ onOpenScan, onOpenEnterprise }: { onOpenScan: () => void; onOpenEnterprise: () => void }) => {
-  const cases = [
-    { icon: <Globe />, title: "Insurance", desc: "Real-time risk assessment for precision underwriting." },
-    { icon: <Users />, title: "Corporate Wellness", desc: "Empower employees with zero-friction health tools." },
-    { icon: <Stethoscope />, title: "Telehealth", desc: "Enable remote diagnostic capabilities for every doctor." },
-    { icon: <Heart />, title: "Public Health", desc: "Screen populations instantly at scale without logistics." },
-  ];
-
-  return (
-    <RevealSection id="solutions" className="py-32 px-6 max-w-7xl mx-auto">
-      <SectionHeading title="A Multi-Industry Platform" subtitle="Solutions" />
-      <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
-        {cases.map((c, i) => (
-          <div 
-            key={i} 
-            onClick={onOpenEnterprise}
-            className="group bg-white p-6 rounded-xl hover:border-emerald-200 transition-all cursor-pointer border border-slate-100 hover:shadow-lg"
-          >
-            <div className="w-10 h-10 rounded-lg bg-emerald-50 mb-5 grid place-items-center text-emerald-600 group-hover:scale-110 transition-transform">
-              <div className="scale-75">{c.icon}</div>
-            </div>
-            <h3 className="text-lg font-bold mb-2 text-slate-900">{c.title}</h3>
-            <p className="text-slate-500 text-xs font-light leading-normal">{c.desc}</p>
-          </div>
-        ))}
-      </div>
-    </RevealSection>
-  );
-};
-
-const FinalCTA = ({ onOpenScan, onOpenEnterprise }: { onOpenScan: () => void; onOpenEnterprise: () => void }) => {
+const FinalCTA = ({ onOpenScan }: { onOpenScan: () => void }) => {
   return (
     <RevealSection className="py-40 px-6 relative overflow-hidden bg-slate-950">
        {/* Background Sophistication */}
@@ -1517,9 +1279,6 @@ const FinalCTA = ({ onOpenScan, onOpenEnterprise }: { onOpenScan: () => void; on
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <Button className="w-full sm:w-auto group" onClick={onOpenScan}>
                Register First Scan <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
-            <Button variant="secondary" className="w-full sm:w-auto" onClick={onOpenEnterprise}>
-              Enterprise Inquiry
             </Button>
           </div>
           
@@ -1668,8 +1427,7 @@ const Footer = () => {
 const LandingPage = ({ 
   setIsScanOpen, 
   setSkipScanForm, 
-  setIsVideoOpen, 
-  setIsEnterpriseOpen 
+  setIsVideoOpen
 }: any) => (
   <main>
     <Hero onOpenScan={() => {
@@ -1695,19 +1453,11 @@ const LandingPage = ({
       setSkipScanForm(false);
       setIsScanOpen(true);
     }} />
-    <UseCases 
-      onOpenScan={() => {
-        setSkipScanForm(false);
-        setIsScanOpen(true);
-      }} 
-      onOpenEnterprise={() => setIsEnterpriseOpen(true)} 
-    />
     <FinalCTA 
       onOpenScan={() => {
         setSkipScanForm(false);
         setIsScanOpen(true);
       }} 
-      onOpenEnterprise={() => setIsEnterpriseOpen(true)} 
     />
   </main>
 );
@@ -1715,7 +1465,6 @@ const LandingPage = ({
 export default function App() {
   const [isScanOpen, setIsScanOpen] = useState(false);
   const [isVideoOpen, setIsVideoOpen] = useState(false);
-  const [isEnterpriseOpen, setIsEnterpriseOpen] = useState(false);
   const [skipScanForm, setSkipScanForm] = useState(false);
 
   return (
@@ -1732,7 +1481,6 @@ export default function App() {
               setIsScanOpen={setIsScanOpen}
               setSkipScanForm={setSkipScanForm}
               setIsVideoOpen={setIsVideoOpen}
-              setIsEnterpriseOpen={setIsEnterpriseOpen}
             />
           } />
           <Route path="/features" element={
@@ -1751,7 +1499,6 @@ export default function App() {
                 setSkipScanForm(false);
                 setIsScanOpen(true);
               }}
-              onOpenEnterprise={() => setIsEnterpriseOpen(true)}
             />
           } />
           <Route path="/medical-advisory" element={
@@ -1760,7 +1507,6 @@ export default function App() {
                 setSkipScanForm(false);
                 setIsScanOpen(true);
               }}
-              onOpenEnterprise={() => setIsEnterpriseOpen(true)}
             />
           } />
           <Route path="/help" element={
@@ -1783,9 +1529,7 @@ export default function App() {
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
           <Route path="/terms-of-service" element={<TermsOfServicePage />} />
           <Route path="/compliance" element={
-            <CompliancePage 
-              onOpenEnterprise={() => setIsEnterpriseOpen(true)}
-            />
+            <CompliancePage />
           } />
           <Route path="/disclaimer" element={<DisclaimerPage />} />
           <Route path="/contact" element={<ContactPage />} />
@@ -1798,14 +1542,6 @@ export default function App() {
           initialStep={skipScanForm ? 'setup' : 'form'}
         />
         <VideoPopup isOpen={isVideoOpen} onClose={() => setIsVideoOpen(false)} />
-        <EnterprisePopup 
-          isOpen={isEnterpriseOpen} 
-          onClose={() => setIsEnterpriseOpen(false)} 
-          onOpenScan={() => {
-            setSkipScanForm(true);
-            setIsScanOpen(true);
-          }}
-        />
         
         {/* Global Background Accents */}
         <div className="fixed inset-0 pointer-events-none -z-50 overflow-hidden bg-white">

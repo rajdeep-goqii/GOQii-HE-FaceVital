@@ -26,7 +26,7 @@ const RevealSection = ({ children, className = "" }: { children: React.ReactNode
   </motion.section>
 );
 
-export default function MedicalAdvisoryPage({ onOpenScan, onOpenEnterprise }: { onOpenScan: () => void; onOpenEnterprise: () => void }) {
+export default function MedicalAdvisoryPage({ onOpenScan }: { onOpenScan: () => void }) {
   const advisors = [
     {
       name: "Dr. John Smith",

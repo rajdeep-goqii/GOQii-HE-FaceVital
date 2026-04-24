@@ -26,7 +26,7 @@ const RevealSection = ({ children, className = "" }: { children: React.ReactNode
   </motion.section>
 );
 
-export default function CompliancePage({ onOpenEnterprise }: { onOpenEnterprise: () => void }) {
+export default function CompliancePage() {
   return (
     <div className="pt-32 pb-20 bg-white min-h-screen">
       {/* Hero Section */}
@@ -207,7 +207,7 @@ export default function CompliancePage({ onOpenEnterprise }: { onOpenEnterprise:
       {/* Final CTA */}
       <RevealSection className="py-32 px-6 text-center">
         <h2 className="text-4xl md:text-5xl font-bold text-slate-950 mb-10 font-display">
-          Ready for <br/>Enterprise Integration
+          Ready to <br/>Learn More?
         </h2>
         <div className="flex flex-col sm:flex-row gap-6 justify-center">
           <Link 
@@ -216,12 +216,6 @@ export default function CompliancePage({ onOpenEnterprise }: { onOpenEnterprise:
           >
             Contact Us <ArrowRight className="w-5 h-5" />
           </Link>
-          <button 
-            onClick={onOpenEnterprise}
-            className="bg-white border border-slate-200 text-slate-950 px-10 py-5 rounded-2xl font-bold shadow-sm hover:shadow-md hover:border-slate-300 transition-all text-lg flex items-center justify-center gap-3"
-          >
-            Book Demo
-          </button>
         </div>
       </RevealSection>
 

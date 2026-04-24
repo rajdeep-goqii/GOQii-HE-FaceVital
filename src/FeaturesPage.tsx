@@ -248,11 +248,9 @@ export default function FeaturesPage({ onOpenScan, onOpenVideo }: { onOpenScan: 
             <h2 className="text-4xl font-bold text-slate-950 mb-4 font-display">Built for Everyone</h2>
             <p className="text-slate-500 font-light">Scaling health intelligence across every sector.</p>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-2 gap-8 max-w-2xl mx-auto">
             {[
               { icon: User, label: "Individuals" },
-              { icon: Users, label: "Corporate wellness" },
-              { icon: ShieldCheck, label: "Insurance" },
               { icon: Stethoscope, label: "Healthcare providers" }
             ].map((audience, i) => (
               <div key={i} className="p-10 rounded-[32px] border border-slate-100 hover:border-brand-primary/20 transition-all text-center group">

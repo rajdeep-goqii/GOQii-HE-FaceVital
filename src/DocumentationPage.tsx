@@ -87,7 +87,7 @@ export default function DocumentationPage() {
       color: "text-amber-500",
       bg: "bg-amber-50",
       content: [
-        { subtitle: "Applications", text: "- Telehealth platforms\n- Insurance onboarding\n- Corporate wellness\n- Fitness applications" }
+        { subtitle: "Applications", text: "- Remote patient monitoring\n- Health diagnostics\n- Preventive wellness\n- Fitness applications" }
       ]
     },
     {

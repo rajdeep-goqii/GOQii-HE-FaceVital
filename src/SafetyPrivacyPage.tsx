@@ -48,42 +48,31 @@ export default function SafetyPrivacyPage({ onOpenScan }: { onOpenScan: () => vo
         </div>
       </RevealSection>
 
-      {/* What We Collect — and Why */}
       <RevealSection className="py-24 bg-slate-50 border-y border-slate-100">
-        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
-          <div>
+        <div className="max-w-3xl mx-auto px-6 text-center">
+          <div className="mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-slate-950 mb-6 font-display">What We Collect — and Why</h2>
-            <p className="text-lg text-slate-600 font-light leading-relaxed mb-10">
+            <p className="text-lg text-slate-600 font-light leading-relaxed">
               We operate on a principle of data minimization. We only collect the data absolutely required to provide your health insights.
             </p>
-            <ul className="space-y-6">
-              {[
-                { icon: Video, title: "Face scan video", desc: "Processed momentarily for rPPG analysis and instantly discarded." },
-                { icon: UserCircle, title: "Basic profile data", desc: "Optional data like age or biological sex to refine algorithmic accuracy." },
-                { icon: ShieldCheck, title: "No unnecessary collection", desc: "We never ask for or scrape data outside of what is strictly needed." }
-              ].map((item, i) => (
-                <li key={i} className="flex items-start gap-4 p-4 rounded-2xl bg-white border border-slate-100 shadow-sm">
-                  <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0 border border-emerald-100 mt-1">
-                    <item.icon className="w-5 h-5 text-emerald-600" />
-                  </div>
-                  <div>
-                    <span className="font-bold text-slate-950 block text-lg mb-1">{item.title}</span>
-                    <span className="text-slate-500 font-light text-sm">{item.desc}</span>
-                  </div>
-                </li>
-              ))}
-            </ul>
           </div>
-          <div className="flex justify-center">
-            <div className="relative w-full max-w-sm aspect-square bg-white rounded-full border border-slate-200 shadow-2xl flex items-center justify-center overflow-hidden">
-               <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.05)_0,transparent_100%)]" />
-               <Database className="w-32 h-32 text-slate-200" />
-               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-6 py-3 rounded-full border border-slate-200 shadow-md flex items-center gap-2">
-                 <ShieldCheck className="w-5 h-5 text-emerald-500" />
-                 <span className="font-bold text-slate-950 text-sm">Minimal Data Footprint</span>
-               </div>
-            </div>
-          </div>
+          <ul className="space-y-6 text-left">
+            {[
+              { icon: Video, title: "Face scan video", desc: "Processed momentarily for rPPG analysis and instantly discarded." },
+              { icon: UserCircle, title: "Basic profile data", desc: "Optional data like age or biological sex to refine algorithmic accuracy." },
+              { icon: ShieldCheck, title: "No unnecessary collection", desc: "We never ask for or scrape data outside of what is strictly needed." }
+            ].map((item, i) => (
+              <li key={i} className="flex items-start gap-4 p-6 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+                <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0 border border-emerald-100">
+                  <item.icon className="w-6 h-6 text-emerald-600" />
+                </div>
+                <div>
+                  <span className="font-bold text-slate-950 block text-lg mb-1">{item.title}</span>
+                  <span className="text-slate-500 font-light text-base leading-relaxed">{item.desc}</span>
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
       </RevealSection>
 
