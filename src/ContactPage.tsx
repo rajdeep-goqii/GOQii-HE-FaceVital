@@ -237,11 +237,13 @@ export default function ContactPage() {
                 ))}
               </div>
             </div>
-            <div className="aspect-video rounded-[32px] overflow-hidden border border-white/10 shadow-2xl">
+            <div className="rounded-[32px] overflow-hidden border border-white/10 shadow-2xl">
               <img
                 src="/contact-image.png"
-                alt="Global health presence"
-                className="w-full h-full object-cover"
+                alt="Global health presence — world map with network connections"
+                className="w-full h-auto block"
+                style={{ display: 'block' }}
+                loading="eager"
               />
             </div>
           </div>

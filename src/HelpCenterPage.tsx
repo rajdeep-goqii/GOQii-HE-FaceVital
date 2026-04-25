@@ -193,20 +193,22 @@ const HelpDetailPopup = ({ topic, onClose }: { topic: string; onClose: () => voi
   if (!content) return null;
 
   return (
-    <AnimatePresence>
-      <div className="fixed inset-0 z-[110] flex items-center justify-center p-6">
+    <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 md:p-6">
         <motion.div
+          key="backdrop"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
-          className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm"
+          className="absolute inset-0 bg-slate-950/70 backdrop-blur-sm"
         />
         <motion.div
-          initial={{ opacity: 0, scale: 0.9, y: 20 }}
+          key="modal"
+          initial={{ opacity: 0, scale: 0.92, y: 24 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.9, y: 20 }}
-          className="relative w-full max-w-2xl bg-white rounded-[32px] overflow-hidden shadow-2xl z-10"
+          exit={{ opacity: 0, scale: 0.92, y: 24 }}
+          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          className="relative w-full max-w-2xl bg-white rounded-[32px] overflow-hidden shadow-2xl z-10 max-h-[90vh] overflow-y-auto"
         >
           <div className="p-8 md:p-12">
             <button 
@@ -269,7 +271,6 @@ const HelpDetailPopup = ({ topic, onClose }: { topic: string; onClose: () => voi
           </div>
         </motion.div>
       </div>
-    </AnimatePresence>
   );
 };
 
@@ -377,15 +378,18 @@ export default function HelpCenterPage({ onOpenScan }: { onOpenScan: () => void 
                   <topic.icon className={`w-7 h-7 ${topic.color}`} />
                 </div>
                 <h3 className="text-xl font-bold text-slate-950 mb-6 font-display">{topic.title}</h3>
-                <ul className="space-y-4">
+                <ul className="space-y-3">
                   {topic.links.map((link, j) => (
                     <li key={j}>
-                      <button 
+                      <button
+                        type="button"
                         onClick={() => setSelectedTopic(link)}
-                        className="w-full flex items-center text-slate-600 hover:text-slate-950 group/link transition-colors text-left"
+                        className="w-full flex items-center gap-2 py-2 px-3 rounded-xl hover:bg-slate-50 cursor-pointer transition-all duration-200 text-left group/link"
                       >
-                        <span className="font-light">{link}</span>
-                        <ChevronRight className="w-4 h-4 ml-auto opacity-0 -translate-x-2 group-hover/link:opacity-100 group-hover/link:translate-x-0 transition-all text-emerald-500" />
+                        <ChevronRight className={`w-4 h-4 shrink-0 ${topic.color} opacity-60 group-hover/link:opacity-100 group-hover/link:translate-x-0.5 transition-all`} />
+                        <span className="text-slate-700 font-medium group-hover/link:text-slate-950 transition-colors underline-offset-2 group-hover/link:underline">
+                          {link}
+                        </span>
                       </button>
                     </li>
                   ))}

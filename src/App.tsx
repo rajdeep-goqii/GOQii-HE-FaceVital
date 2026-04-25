@@ -35,7 +35,7 @@ import {
   Github
 } from 'lucide-react';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link, useLocation, Navigate } from 'react-router-dom';
 import FeaturesPage from './FeaturesPage';
 import ApiReferencePage from './ApiReferencePage';
 import AboutPage from './AboutPage';
@@ -1537,6 +1537,66 @@ const Footer = ({ onOpenPartner }: { onOpenPartner: () => void }) => {
   );
 };
 
+const SolutionsSection = () => {
+  const industries = [
+    {
+      icon: Globe,
+      title: "Insurance",
+      desc: "Real-time risk assessment for precision underwriting at scale.",
+      color: "text-emerald-600",
+      bg: "bg-emerald-50",
+    },
+    {
+      icon: Users,
+      title: "Corporate Wellness",
+      desc: "Empower employees with zero-friction, instant health tools.",
+      color: "text-blue-600",
+      bg: "bg-blue-50",
+    },
+    {
+      icon: Stethoscope,
+      title: "Telehealth",
+      desc: "Enable remote diagnostic capabilities for every doctor and patient.",
+      color: "text-purple-600",
+      bg: "bg-purple-50",
+    },
+    {
+      icon: Heart,
+      title: "Public Health",
+      desc: "Screen populations instantly at scale without costly logistics.",
+      color: "text-rose-600",
+      bg: "bg-rose-50",
+    },
+  ];
+
+  return (
+    <RevealSection id="solutions" className="py-32 bg-gradient-to-b from-slate-50/80 to-white relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/5 blur-[120px] rounded-full pointer-events-none" />
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        <SectionHeading title="A Multi-Industry Platform" subtitle="Solutions" />
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mt-4">
+          {industries.map((item, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.12, duration: 0.7 }}
+              className="p-10 rounded-[32px] bg-white border border-slate-100 shadow-sm hover:shadow-lg hover:border-emerald-100 transition-all duration-500 group"
+            >
+              <div className={`w-16 h-16 rounded-2xl ${item.bg} flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-300`}>
+                <item.icon className={`w-8 h-8 ${item.color}`} />
+              </div>
+              <h3 className="text-xl font-bold text-slate-950 mb-4 font-display">{item.title}</h3>
+              <p className="text-base text-slate-500 font-light leading-relaxed">{item.desc}</p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </RevealSection>
+  );
+};
+
 const LandingPage = ({
   setIsVideoOpen,
   openScan,
@@ -1549,6 +1609,7 @@ const LandingPage = ({
     <MetricsGrid onOpenScan={openScan} />
     <AIVisualization onOpenScan={openScan} />
     <Journey />
+    <SolutionsSection />
     <ResultsSummary onOpenScan={openScan} />
     <FinalCTA onOpenScan={openScan} />
   </main>
@@ -1592,7 +1653,7 @@ export default function App() {
               onOpenVideo={() => setIsVideoOpen(true)}
             />
           } />
-          <Route path="/api" element={<ApiReferencePage />} />
+          <Route path="/api" element={<Navigate to="/" replace />} />
           <Route path="/about" element={<AboutPage onOpenScan={openScan} onOpenPartner={() => setIsPartnerOpen(true)} />} />
           <Route path="/medical-advisory" element={<MedicalAdvisoryPage onOpenScan={openScan} />} />
           <Route path="/help" element={<HelpCenterPage onOpenScan={openScan} />} />

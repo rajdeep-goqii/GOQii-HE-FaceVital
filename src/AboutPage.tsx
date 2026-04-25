@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { 
   Heart,
   Activity,
@@ -159,18 +159,24 @@ export default function AboutPage({ onOpenScan, onOpenPartner }: { onOpenScan: (
       <RevealSection className="py-40 px-6 text-center">
         <h2 className="text-5xl font-bold text-slate-950 mb-10 font-display">Join Us in Building the<br/>Future of Health</h2>
         <div className="flex flex-col sm:flex-row gap-6 justify-center">
-          <button
-            onClick={onOpenScan}
-            className="bg-brand-primary text-slate-950 px-10 py-5 rounded-2xl font-bold shadow-[0_10px_30px_rgba(0,245,160,0.2)] hover:scale-105 active:scale-95 transition-all text-lg flex items-center justify-center gap-3"
+          <motion.button
+            type="button"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => onOpenScan()}
+            className="bg-gradient-to-r from-[#00f5a0] to-[#00d9f5] text-slate-950 px-10 py-5 rounded-2xl font-bold shadow-[0_10px_30px_rgba(0,245,160,0.2)] transition-all text-lg flex items-center justify-center gap-3 cursor-pointer"
           >
             Start Your Health Scan <ArrowRight className="w-5 h-5" />
-          </button>
-          <button
-            onClick={onOpenPartner}
-            className="bg-white border border-slate-200 text-slate-950 px-10 py-5 rounded-2xl font-bold shadow-sm hover:shadow-md hover:border-slate-300 transition-all text-lg flex items-center justify-center gap-3"
+          </motion.button>
+          <motion.button
+            type="button"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => onOpenPartner()}
+            className="bg-white border-2 border-slate-200 text-slate-950 px-10 py-5 rounded-2xl font-bold hover:border-slate-300 hover:shadow-md transition-all text-lg flex items-center justify-center gap-3 cursor-pointer"
           >
             Partner With Us
-          </button>
+          </motion.button>
         </div>
       </RevealSection>
     </div>
